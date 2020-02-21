@@ -114,7 +114,38 @@ public class VectorF12 {
             }
         }
         System.out.println(Cadena);
+    }
 
+    public static void EliminarDato(int[] c, int opc)
+    {
+        int DuT = c[0]+1;
+        int Posc = 0;
+
+        switch (opc)
+        {
+            case 1:
+
+                Scanner Nexp = new Scanner(System.in);
+                int Exponente = Nexp.nextInt();
+
+                Posc = DuT - Exponente;
+                c[Posc] = 0;
+
+                break;
+            case 2:
+
+                Scanner Ncoe = new Scanner(System.in);
+                int Coeficiente = Ncoe.nextInt();
+
+                for(int i=1; i < DuT; i++)
+                {
+                    if(c[i] == Coeficiente)
+                    {
+                        c[i] = 0;
+                    }
+                }
+                break;
+        }
     }
 
     public static void Menu()
@@ -276,7 +307,18 @@ public class VectorF12 {
                     InsertarDato(VectorFinal);
 
                 break;
-            case 2: break;
+            case 2:
+
+                Scanner RTerExp = new Scanner(System.in);
+                int TerExp = RTerExp.nextInt();
+
+                System.out.println("DESEA ELIMINAR POR;");
+                System.out.println("[1] EXPONENTE");
+                System.out.println("[2] COEFICIENTE");
+
+                EliminarDato(VectorFinal, TerExp);
+
+                break;
             case 3:
 
                 System.out.println("VECTOR FORMA 1");
