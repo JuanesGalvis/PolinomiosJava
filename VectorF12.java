@@ -1,17 +1,121 @@
 import java.util.Scanner;
 import java.util.*;
-public class VectorForma1 {
+public class VectorF12 {
 
-    public class VectorF1
+    public static void InsertarDato(int[] a)
     {
-        //PROPIEDADES
-        public int VectorFinal[];
-        public int Du;
-        public int Dimension;
+        System.out.println("Por Favor, colocarle el signo al primer termino y una C al final");
+        Scanner EntradaTermino = new Scanner(System.in);
+        String NTermino = EntradaTermino.nextLine();
+        char T[];
+        String CTerminos = "", CExponent = "";
+        T = NTermino.toCharArray();
+        int Cant = NTermino.length();
+        for( int i = 0; i < Cant; i++ )
+        {
+            if (T[i] == '+') {
+                i++;
+                if (T[i] == 'X' || T[i] == 'x') {
 
-        //CONSTRUCTOR
+                    CTerminos = CTerminos + "1";
+                    i++;
+                } else {
+                    while (T[i] != 'X' && T[i] != 'x' && T[i] != 'C') {
+                        CTerminos += Character.toString(T[i]);
+                        i++;
+                    }
+                }
+
+            } else if (T[i] == '-') {
+                CTerminos = CTerminos + "-";
+                i++;
+
+                if (T[i] == 'X' || T[i] == 'x') {
+                    CTerminos = CTerminos + "1";
+                    i++;
+
+                } else {
+                    while (T[i] != 'X' && T[i] != 'x' && T[i] != 'C') {
+                        CTerminos += Character.toString(T[i]);
+                        i++;
+                    }
+                }
+            }
+
+            //EXPONENTES
+            if (T[i] == 'X' || T[i] == 'x') {
+                if (T[i + 1] == '^') {
+                    i += 2;
+                    while (T[i] != '+' && T[i] != '-' && T[i] != 'C') {
+                        CExponent += Character.toString(T[i]);
+                        i++;
+                    }
+                } else {
+                    CExponent = CExponent + "1";
+                }
+            }else if(T[i] == 'C')
+            {
+                CExponent = CExponent + "0";
+            }
+        }
+
+        int DuT = a[0]+1;
+        int Posc = DuT - Integer.parseInt(CExponent);
+
+        if( a[Posc] != 0 )
+        {
+            a[Posc] += Integer.parseInt(CTerminos);
+        }else
+        {
+            a[Posc] = Integer.parseInt(CTerminos);
+        }
+
+        System.out.println("DATO INSERTADO CORRECTAMENTE");
+
     }
 
+    public static void ImprimirPolinomio(int[] b)
+    {
+        int DuT = b[0]+1, i=1;
+        String Cadena = "";
+        for (i = 1; i < DuT; i++)
+        {
+            int Exp = DuT - i;
+
+            if(Exp != 0 && Exp != 1)
+            {
+                if(b[i] > 0)
+                {
+                    Cadena = Cadena+"+"+b[i]+"X^"+Exp;
+                }else
+                {
+                    Cadena = Cadena+""+b[i]+"X^"+Exp;
+                }
+
+            }else if(Exp == 1)
+            {
+                if(b[i] > 0)
+                {
+                    Cadena = Cadena+"+"+b[i]+"X";
+                }else
+                {
+                    Cadena = Cadena+""+b[i]+"X^";
+                }
+
+            }else
+            {
+                if(b[i] > 0)
+                {
+                    Cadena = Cadena+"+"+b[i];
+                }else
+                {
+                    Cadena = Cadena+""+b[i]+"";
+                }
+            }
+        }
+        System.out.println(Cadena);
+
+    }
 
     public static void Menu()
     {
@@ -27,7 +131,7 @@ public class VectorForma1 {
 
 
     public static void main(String[] args) {
-        //int nI = Integer.parseInt(n);
+
         System.out.println("Por Favor, colocarle el signo al primer termino y una C al final");
         Scanner entradaEscaner = new Scanner(System.in);
         String Polinomio = entradaEscaner.nextLine();
@@ -147,8 +251,14 @@ public class VectorForma1 {
         }
 
         //MENU E INTERACION
-        Scanner EntradaOpcion = new Scanner(System.in);
-        int opc = EntradaOpcion.nextInt();
+
+        int opc = 0;
+
+        do
+        {
+            Menu();
+            Scanner EntradaOpcion = new Scanner(System.in);
+            opc = EntradaOpcion.nextInt();
 
         switch (opc)
         {
@@ -161,7 +271,11 @@ public class VectorForma1 {
             System.out.println("[6] Operaciones");
             */
 
-            case 1: break;
+            case 1:
+
+                    InsertarDato(VectorFinal);
+
+                break;
             case 2: break;
             case 3:
 
@@ -179,11 +293,15 @@ public class VectorForma1 {
                     System.out.println(VectorForme2[i]);
                 }break;
 
-            case 5: break;
+            case 5:
+
+                ImprimirPolinomio(VectorFinal);
+
+                break;
             case 6: break;
         }
 
-
+        }while(opc != 7);
 
     }
 }
