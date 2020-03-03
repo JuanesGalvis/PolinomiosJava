@@ -2,6 +2,35 @@ import java.util.Scanner;
 import java.util.*;
 public class VectorF12 {
 
+    /* ===============================================================
+    AJUSTAR
+    =============================================================== */
+    public static void Ajustar(int [] V)
+    {
+        int DuT = V[0]+1, i = 1, C = 0;
+
+        //CONTAR LOS PRIMEROS CEROS
+        while( V[i] == 0 )
+        {
+            C++;
+            i++;
+        }
+
+        //ORGANIZAR COEFICIENTES
+        for (int x = 1; x < DuT; x++)
+        {
+            V[x] = V[x+C];
+        }
+
+        //ORGANIZAR GRADO MAYOR
+        V[0] = V[0] - C;
+
+    }
+
+
+    /* ===============================================================
+    INSERTAR DATO
+    =============================================================== */
     public static void InsertarDato(int[] a)
     {
         System.out.println("Por Favor, colocarle el signo al primer termino y una C al final");
@@ -70,10 +99,17 @@ public class VectorF12 {
             a[Posc] = Integer.parseInt(CTerminos);
         }
 
-        System.out.println("DATO INSERTADO CORRECTAMENTE");
+        if(a[1] == 0)
+        {
+            Ajustar(a);
+        }
 
+        System.out.println("DATO INSERTADO CORRECTAMENTE");
     }
 
+    /* ===============================================================
+    IMPRIMIR POLINOMIO
+    =============================================================== */
     public static void ImprimirPolinomio(int[] b)
     {
         int DuT = b[0]+1, i=1;
@@ -87,9 +123,13 @@ public class VectorF12 {
                 if(b[i] > 0)
                 {
                     Cadena = Cadena+"+"+b[i]+"X^"+Exp;
-                }else
+
+                }else if(b[i] < 0)
                 {
                     Cadena = Cadena+""+b[i]+"X^"+Exp;
+                }else
+                {
+                    Cadena = Cadena+"";
                 }
 
             }else if(Exp == 1)
@@ -99,7 +139,7 @@ public class VectorF12 {
                     Cadena = Cadena+"+"+b[i]+"X";
                 }else
                 {
-                    Cadena = Cadena+""+b[i]+"X^";
+                    Cadena = Cadena+""+b[i]+"X";
                 }
 
             }else
@@ -116,6 +156,9 @@ public class VectorF12 {
         System.out.println(Cadena);
     }
 
+    /* ===============================================================
+    ELIMINAR DATO
+    =============================================================== */
     public static void EliminarDato(int[] c, int opc)
     {
         int DuT = c[0]+1;
@@ -125,15 +168,22 @@ public class VectorF12 {
         {
             case 1:
 
+                System.out.println("Inserte El exponente que quiere eliminar: ");
                 Scanner Nexp = new Scanner(System.in);
                 int Exponente = Nexp.nextInt();
 
                 Posc = DuT - Exponente;
                 c[Posc] = 0;
 
+                if(c[1] == 0)
+                {
+                    Ajustar(c);
+                }
                 break;
+
             case 2:
 
+                System.out.println("Inserte el coeficiente a eliminar: ");
                 Scanner Ncoe = new Scanner(System.in);
                 int Coeficiente = Ncoe.nextInt();
 
@@ -144,8 +194,36 @@ public class VectorF12 {
                         c[i] = 0;
                     }
                 }
+
+                if(c[1] == 0)
+                {
+                    Ajustar(c);
+                }
+
                 break;
         }
+    }
+
+    /* ===============================================================
+    EVALUAR
+    =============================================================== */
+    public static void Evaluar(int [] V, int X)
+    {
+        int DuT = V[0]+1;
+        int Result = 0, Elevado = X;
+
+       for(int i = 1; i < DuT; i++)
+       {
+           for(int j = 1; j < (DuT - i); j++)
+           {
+             Elevado *= X;
+           }
+
+           Result += V[i]*Elevado;
+           Elevado = X;
+       }
+
+        System.out.println("RESULTADO: "+Result);
     }
 
     public static void Menu()
@@ -157,7 +235,9 @@ public class VectorF12 {
         System.out.println("[4] Mostrar Forma 2");
         System.out.println("[5] Mostrar nuevo String");
         System.out.println("[6] Operaciones");
-        System.out.println("[7] Salir");
+        System.out.println("[7] Evaluar");
+        System.out.println("[8] Ajustar");
+        System.out.println("[9] Salir");
     }
 
 
@@ -293,15 +373,6 @@ public class VectorF12 {
 
         switch (opc)
         {
-            /*
-            System.out.println("[1] Insertar Dato");
-            System.out.println("[2] Eliminar Dato");
-            System.out.println("[3] Mostrar Forma 1");
-            System.out.println("[4] Mostrar Forma 2");
-            System.out.println("[5] Mostrar nuevo String");
-            System.out.println("[6] Operaciones");
-            */
-
             case 1:
 
                     InsertarDato(VectorFinal);
@@ -310,11 +381,10 @@ public class VectorF12 {
             case 2:
 
                 Scanner RTerExp = new Scanner(System.in);
-                int TerExp = RTerExp.nextInt();
-
                 System.out.println("DESEA ELIMINAR POR;");
                 System.out.println("[1] EXPONENTE");
                 System.out.println("[2] COEFICIENTE");
+                int TerExp = RTerExp.nextInt();
 
                 EliminarDato(VectorFinal, TerExp);
 
@@ -341,9 +411,21 @@ public class VectorF12 {
 
                 break;
             case 6: break;
+            case 7:
+
+                Scanner fx = new Scanner(System.in);
+                int Vfx = fx.nextInt();
+
+                Evaluar(VectorFinal ,Vfx);
+                break;
+
+            case 8:
+
+                Ajustar(VectorFinal);
+                break;
         }
 
-        }while(opc != 7);
+        }while(opc != 9);
 
     }
 }
