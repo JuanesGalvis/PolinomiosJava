@@ -33,6 +33,7 @@ public class VectorF12 {
     =============================================================== */
     public static void InsertarDato(int[] a)
     {
+        //ENTRAR Y ORGANIZAR EL DATO A INSERTAR
         System.out.println("Por Favor, colocarle el signo al primer termino y una C al final");
         Scanner EntradaTermino = new Scanner(System.in);
         String NTermino = EntradaTermino.nextLine();
@@ -87,28 +88,62 @@ public class VectorF12 {
                 CExponent = CExponent + "0";
             }
         }
-
         int DuT = a[0]+1;
         int Posc = DuT - Integer.parseInt(CExponent);
 
-        if( a[Posc] != 0 )
+        if(Integer.parseInt(CExponent) > a[0])
         {
-            a[Posc] += Integer.parseInt(CTerminos);
+            int d = Integer.parseInt(CExponent) - a[0];
+            int x = DuT;
+
+            for(int i = 0; i < DuT; i++)
+            {
+                a[x+d] = a[x];
+                x--;
+            }
+            a[0] = Integer.parseInt(CExponent);
+            a[1] = Integer.parseInt(CTerminos);
+
+            DuT = a[0]+1;
+
         }else
         {
-            a[Posc] = Integer.parseInt(CTerminos);
-        }
 
-        if(a[1] == 0)
-        {
-            Ajustar(a);
-        }
+            if( a[Posc] != 0 )
+            {
 
+                System.out.println("[1] REEMPLAZAR - [2] SUMAR");
+                Scanner OpcEntrada = new Scanner(System.in);
+                int Opc = OpcEntrada.nextInt();
+
+                switch (Opc)
+                {
+                    case 1:
+
+                        a[Posc] = Integer.parseInt(CTerminos);
+                        break;
+
+                    case 2:
+
+                        a[Posc] += Integer.parseInt(CTerminos);
+                        break;
+                }
+            }else
+            {
+                a[Posc] = Integer.parseInt(CTerminos);
+            }
+
+            if(a[1] == 0)
+            {
+                Ajustar(a);
+            }
+
+        }
         System.out.println("DATO INSERTADO CORRECTAMENTE");
     }
 
     /* ===============================================================
-    IMPRIMIR POLINOMIO
+    IMPRIMIR STRING
     =============================================================== */
     public static void ImprimirPolinomio(int[] b)
     {
